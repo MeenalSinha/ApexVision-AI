@@ -1,0 +1,115 @@
+{
+  "id": "apexvision-race-intelligence-pipeline",
+  "name": "ApexVision Race Intelligence Pipeline",
+  "description": "Multi-agent LangFlow orchestration: Commentary + Strategy + Coaching + Regulation RAG",
+  "version": "1.0.0",
+  "nodes": [
+    {
+      "id": "input_race_state",
+      "type": "TextInput",
+      "data": {
+        "name": "Race State Input",
+        "description": "Accepts live race telemetry and state as JSON string"
+      },
+      "position": { "x": 50, "y": 200 }
+    },
+    {
+      "id": "granite_llm",
+      "type": "WatsonxAI",
+      "data": {
+        "name": "IBM Granite LLM",
+        "model_id": "ibm/granite-13b-instruct-v2",
+        "parameters": {
+          "max_new_tokens": 512,
+          "temperature": 0.7,
+          "top_p": 0.9,
+          "repetition_penalty": 1.1
+        }
+      },
+      "position": { "x": 400, "y": 100 }
+    },
+    {
+      "id": "commentary_chain",
+      "type": "LLMChain",
+      "data": {
+        "name": "PitLane Pulse Commentary",
+        "prompt": "You are PitLane Pulse, an elite AI motorsport commentator. Given race state: {race_state}, generate exciting, technically precise commentary in JSON format with fields: commentary, excitement_level, tactical_insight.",
+        "llm": "granite_llm"
+      },
+      "position": { "x": 700, "y": 50 }
+    },
+    {
+      "id": "strategy_chain",
+      "type": "LLMChain",
+      "data": {
+        "name": "RaceMind Strategy Agent",
+        "prompt": "You are RaceMind AI, a Formula 1 strategist. Analyze: {race_state}. Provide pit-stop recommendations with confidence scores in JSON.",
+        "llm": "granite_llm"
+      },
+      "position": { "x": 700, "y": 200 }
+    },
+    {
+      "id": "coaching_chain",
+      "type": "LLMChain",
+      "data": {
+        "name": "ApexCoach Driver Intelligence",
+        "prompt": "You are ApexCoach AI. Analyze driver telemetry: {telemetry}. Provide specific braking, throttle, and racing line recommendations in JSON.",
+        "llm": "granite_llm"
+      },
+      "position": { "x": 700, "y": 350 }
+    },
+    {
+      "id": "chroma_retriever",
+      "type": "ChromaRetriever",
+      "data": {
+        "name": "FIA Regulation Vector Store",
+        "collection_name": "fia_regulations",
+        "k": 5
+      },
+      "position": { "x": 400, "y": 450 }
+    },
+    {
+      "id": "regulation_rag",
+      "type": "RetrievalQA",
+      "data": {
+        "name": "PitWall-IQ Regulation RAG",
+        "retriever": "chroma_retriever",
+        "llm": "granite_llm",
+        "chain_type": "stuff",
+        "prompt": "Using FIA regulations context: {context}\nAnswer: {question}\nProvide article reference and penalty risk assessment."
+      },
+      "position": { "x": 700, "y": 500 }
+    },
+    {
+      "id": "orchestrator",
+      "type": "AgentExecutor",
+      "data": {
+        "name": "ApexVision Orchestrator",
+        "agent_type": "zero-shot-react",
+        "tools": ["commentary_chain", "strategy_chain", "coaching_chain", "regulation_rag"],
+        "llm": "granite_llm",
+        "max_iterations": 5
+      },
+      "position": { "x": 1050, "y": 250 }
+    },
+    {
+      "id": "output",
+      "type": "TextOutput",
+      "data": { "name": "Intelligence Output" },
+      "position": { "x": 1350, "y": 250 }
+    }
+  ],
+  "edges": [
+    { "source": "input_race_state", "target": "orchestrator" },
+    { "source": "granite_llm", "target": "commentary_chain" },
+    { "source": "granite_llm", "target": "strategy_chain" },
+    { "source": "granite_llm", "target": "coaching_chain" },
+    { "source": "chroma_retriever", "target": "regulation_rag" },
+    { "source": "granite_llm", "target": "regulation_rag" },
+    { "source": "commentary_chain", "target": "orchestrator" },
+    { "source": "strategy_chain", "target": "orchestrator" },
+    { "source": "coaching_chain", "target": "orchestrator" },
+    { "source": "regulation_rag", "target": "orchestrator" },
+    { "source": "orchestrator", "target": "output" }
+  ]
+}

@@ -1,0 +1,266 @@
+@import url("https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --apex-black:  #040407;
+  --apex-void:   #08090F;
+  --apex-panel:  #0D0F1A;
+  --apex-border: #1A1E2E;
+  --apex-muted:  #252840;
+  --apex-accent: #00E5FF;
+  --apex-red:    #FF2442;
+  --apex-amber:  #FFB800;
+  --apex-green:  #00FF88;
+  --apex-purple: #7B61FF;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--apex-black);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 3px; height: 3px; }
+::-webkit-scrollbar-track { background: var(--apex-void); }
+::-webkit-scrollbar-thumb { background: var(--apex-muted); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--apex-accent); }
+
+/* ── Grid background ────────────────────────────────────────── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(0,229,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Panel ──────────────────────────────────────────────────── */
+.apex-panel {
+  background: linear-gradient(180deg, rgba(13,15,26,.97) 0%, rgba(8,9,15,.99) 100%);
+  border: 1px solid rgba(26,30,46,.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+}
+.apex-panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,.35), transparent);
+  pointer-events: none;
+}
+
+/* ── Corner cuts ─────────────────────────────────────────────── */
+.corner-cut    { clip-path: polygon(12px 0%,100% 0%,100% 100%,0% 100%,0% 12px); }
+.corner-cut-lg { clip-path: polygon(20px 0%,100% 0%,100% calc(100% - 20px),calc(100% - 20px) 100%,0% 100%,0% 20px); }
+
+/* ── Glow text ───────────────────────────────────────────────── */
+.glow-accent { text-shadow: 0 0 10px rgba(0,229,255,.7), 0 0 20px rgba(0,229,255,.3); }
+.glow-red    { text-shadow: 0 0 10px rgba(255,36,66,.7),  0 0 20px rgba(255,36,66,.3); }
+.glow-green  { text-shadow: 0 0 10px rgba(0,255,136,.7),  0 0 20px rgba(0,255,136,.3); }
+.glow-amber  { text-shadow: 0 0 10px rgba(255,184,0,.7); }
+
+/* ── Status dots ─────────────────────────────────────────────── */
+.status-dot          { width:6px; height:6px; border-radius:50%; display:inline-block; flex-shrink:0; }
+.status-active       { background:var(--apex-green); box-shadow:0 0 6px var(--apex-green); animation:pulse 2s ease-in-out infinite; }
+.status-warning      { background:var(--apex-amber); box-shadow:0 0 6px var(--apex-amber); animation:risk-flash 1s ease-in-out infinite; }
+.status-danger       { background:var(--apex-red);   box-shadow:0 0 8px var(--apex-red);   animation:risk-flash .6s ease-in-out infinite; }
+
+/* ── Tyre compounds ─────────────────────────────────────────── */
+.tyre-soft   { color: var(--apex-red); }
+.tyre-medium { color: var(--apex-amber); }
+.tyre-hard   { color: #FFFFFF; }
+.tyre-inter  { color: #39B54A; }
+.tyre-wet    { color: #0066FF; }
+
+/* ── Data value mono ─────────────────────────────────────────── */
+.data-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ── Telemetry bar shimmer ───────────────────────────────────── */
+.telemetry-bar { position: relative; overflow: hidden; }
+.telemetry-bar::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
+  animation: shimmer 2.5s ease-in-out infinite;
+}
+
+/* ── Holographic scanlines ────────────────────────────────────── */
+.holo-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg, transparent, transparent 2px,
+    rgba(0,229,255,.012) 2px, rgba(0,229,255,.012) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── F1 separator line ───────────────────────────────────────── */
+.f1-sep {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,229,255,.35), transparent);
+}
+
+/* ── Risk colors ─────────────────────────────────────────────── */
+.risk-critical { color: var(--apex-red);   animation: risk-flash .7s ease-in-out infinite; }
+.risk-high     { color: var(--apex-red); }
+.risk-elevated { color: var(--apex-amber); }
+.risk-low      { color: var(--apex-green); }
+
+/* ── Commentary ticker font ──────────────────────────────────── */
+.commentary-ticker {
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: .025em;
+  line-height: 1.5;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────── */
+@keyframes pulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: .45; }
+}
+@keyframes risk-flash {
+  0%,100% { opacity: 1; }
+  50%      { opacity: .25; }
+}
+@keyframes shimmer {
+  100% { left: 200%; }
+}
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(16px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes apex-scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+@keyframes glow-pulse {
+  0%,100% { box-shadow: 0 0 5px rgba(0,229,255,.25); }
+  50%      { box-shadow: 0 0 18px rgba(0,229,255,.55), 0 0 35px rgba(0,229,255,.18); }
+}
+
+/* ── Utility animations ──────────────────────────────────────── */
+.animate-fade-in       { animation: fade-in .35s ease forwards; }
+.animate-slide-right   { animation: slide-in-right .3s ease forwards; }
+.animate-glow-pulse    { animation: glow-pulse 2.5s ease-in-out infinite; }
+
+/* ── Box shadows ─────────────────────────────────────────────── */
+.shadow-apex-panel  { box-shadow: 0 0 0 1px rgba(0,229,255,.08), 0 4px 24px rgba(0,0,0,.55); }
+.shadow-apex-glow   { box-shadow: 0 0 22px rgba(0,229,255,.28), 0 0 44px rgba(0,229,255,.1); }
+.shadow-danger-glow { box-shadow: 0 0 22px rgba(255,36,66,.35), 0 0 44px rgba(255,36,66,.12); }
+.shadow-strategy    { box-shadow: 0 0 22px rgba(255,184,0,.25); }
+
+/* ── Input styles ────────────────────────────────────────────── */
+input:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 1px rgba(0,229,255,.3);
+}
+
+/* ── Selection ───────────────────────────────────────────────── */
+::selection      { background: rgba(0,229,255,.22); color: #fff; }
+::-moz-selection { background: rgba(0,229,255,.22); color: #fff; }
+
+/* ── Loading skeleton ────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, var(--apex-panel) 25%, var(--apex-muted) 50%, var(--apex-panel) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-slide 1.5s infinite;
+}
+@keyframes skeleton-slide {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Canvas AR overlay ───────────────────────────────────────── */
+#ar-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ── Mobile touch scroll ─────────────────────────────────────── */
+.touch-scroll { -webkit-overflow-scrolling: touch; }
+
+/* ── Print: hide decorative elements ─────────────────────────── */
+@media print {
+  .status-dot, .holo-overlay::before { display: none; }
+}
+
+/* ── Additional animations for landing and error pages ───────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; }
+
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-in-right { animation: slide-in-right 0.4s ease-out forwards; }
+
+/* ── Scan line effect ────────────────────────────────────────── */
+.scan-line {
+  position: relative;
+  overflow: hidden;
+}
+.scan-line::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--apex-accent), transparent);
+  animation: scan-v 3s linear infinite;
+}
+@keyframes scan-v {
+  from { top: -2px; }
+  to   { top: 100%; }
+}
+
+/* ── HUD border pulse ────────────────────────────────────────── */
+@keyframes hud-border {
+  0%, 100% { border-color: rgba(0, 229, 255, 0.15); }
+  50%       { border-color: rgba(0, 229, 255, 0.40); }
+}
+.animate-hud-border { animation: hud-border 3s ease-in-out infinite; }
+
+/* ── Corner accent markers ───────────────────────────────────── */
+.corner-accent {
+  position: relative;
+}
+.corner-accent::before,
+.corner-accent::after {
+  content: "";
+  position: absolute;
+  width: 10px; height: 10px;
+  border-color: var(--apex-accent);
+  border-style: solid;
+  opacity: 0.35;
+}
+.corner-accent::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.corner-accent::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }

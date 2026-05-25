@@ -1,0 +1,33 @@
+fastapi==0.112.0
+uvicorn[standard]==0.30.3
+pydantic==2.8.2
+pydantic-settings==2.4.0
+httpx==0.27.0
+redis==5.0.8
+python-multipart==0.0.9
+websockets==13.0
+
+# IBM / AI
+ibm-watsonx-ai==1.1.2
+langchain==0.2.14
+langchain-community==0.2.12
+langchain-ibm==0.1.11
+chromadb==0.5.5
+
+# Computer Vision
+ultralytics==8.2.86
+opencv-python-headless==4.10.0.84
+numpy==1.26.4
+Pillow==10.4.0
+
+# Document Intelligence
+docling==1.15.0
+
+# Database
+asyncpg==0.29.0
+sqlalchemy[asyncio]==2.0.32
+
+# Utilities
+python-dotenv==1.0.1
+aiofiles==24.1.0
+psutil==6.0.0

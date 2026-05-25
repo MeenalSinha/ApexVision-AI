@@ -1,0 +1,43 @@
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+dist/
+build/
+.next/
+out/
+.npm
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env_python/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Data and models
+backend/uploads/
+backend/outputs/
+backend/models/
+backend/data/chromadb/
+backend/data/docling_parsed/
+backend/data/fia_docs/
